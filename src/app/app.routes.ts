@@ -2,7 +2,7 @@ import { Routes } from '@angular/router';
 
 export const routes: Routes = [
   {
-    path: 'notasp',
+    path: '',
     loadChildren: () => import('./notas-p/notas-p.routes').then(m => m.notasPRoutes)
   },
   {
