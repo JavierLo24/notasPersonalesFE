@@ -4,15 +4,22 @@ import { Component } from '@angular/core';
   selector: 'app-notas-list',
   imports: [],
   template: `
-
-    <h1 class="main-title">Notas personales</h1>
-    <h2 class="sub-title">Lista de notas</h2>
-    <button>Crear nota</button>
+    <div>
+      <h1 class="main-title">Notas personales</h1>
+      <h2 class="sub-title">Lista de notas</h2>
+    </div>
+    <div>
+      <button>Crear nota</button>
+    </div>
     @for (nota of notas; track notas.id) {
     <div class="notas-container">
       <div class="nota-container">
         <h3 class="nota-title">{{ nota.title }}</h3>
         <p class="nota-content">{{ nota.content }}</p>
+        <div>
+          <button>Editar</button>
+          <button>Eliminar</button>
+        </div>
       </div>
     </div>
     }
