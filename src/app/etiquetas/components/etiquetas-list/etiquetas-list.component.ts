@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, EventEmitter, Output } from '@angular/core';
 
 @Component({
   selector: 'app-etiquetas-list',
@@ -8,9 +8,6 @@ import { Component } from '@angular/core';
     <div>
       <h1 class="main-title">Etiquetas</h1>
       <h2 class="sub-title">Lista de etiquetas</h2>
-    </div>
-    <div>
-      <button>Crear etiqueta</button>
     </div>
       <div class="etiqueta-table">
         <table>
@@ -22,7 +19,7 @@ import { Component } from '@angular/core';
           <tr>
             <td>{{ etiqueta.name }}</td>
             <td>
-              <button>Editar</button>
+              <button (click)="toggleAddModal()">Editar</button>
               <button>Eliminar</button>
             </td>
           }
@@ -53,6 +50,7 @@ import { Component } from '@angular/core';
   `
 })
 export class EtiquetasListComponent {
+  @Output() closeModal: EventEmitter<Boolean> = new EventEmitter<Boolean>();
   etiquetas: any = [
     { id: 1, name: 'Etiqueta 1' },
     { id: 2, name: 'Etiqueta 2' },
@@ -71,4 +69,7 @@ export class EtiquetasListComponent {
     { id: 15, name: 'Etiqueta 15' },
     { id: 16, name: 'Etiqueta 16' },
   ];
+  toggleAddModal() {
+    this.closeModal.emit(true);
+  }
 }
