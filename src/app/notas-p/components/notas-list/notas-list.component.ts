@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, EventEmitter, Output } from '@angular/core';
 
 @Component({
   selector: 'app-notas-list',
@@ -8,16 +8,13 @@ import { Component } from '@angular/core';
       <h1 class="main-title">Notas personales</h1>
       <h2 class="sub-title">Lista de notas</h2>
     </div>
-    <div>
-      <button>Crear nota</button>
-    </div>
     @for (nota of notas; track notas.id) {
     <div class="notas-container">
       <div class="nota-container">
         <h3 class="nota-title">{{ nota.title }}</h3>
         <p class="nota-content">{{ nota.content }}</p>
         <div>
-          <button>Editar</button>
+          <button (click)="onCloseModal()">Editar</button>
           <button>Eliminar</button>
         </div>
       </div>
@@ -55,6 +52,7 @@ import { Component } from '@angular/core';
   `,
 })
 export class NotasListComponent {
+  @Output() closeModal: EventEmitter<Boolean> = new EventEmitter<Boolean>();
   notas: any = [
     { id: 1, title: 'Nota 1', content: 'Contenido de la nota 1' },
     { id: 2, title: 'Nota 2', content: 'Contenido de la nota 2' },
@@ -73,4 +71,10 @@ export class NotasListComponent {
     { id: 15, title: 'Nota 15', content: 'Contenido de la nota 15' },
     { id: 16, title: 'Nota 16', content: 'Contenido de la nota 16' },
   ];
+
+  constructor() {}
+
+  onCloseModal() {
+    this.closeModal.emit(true);
+  }
 }
