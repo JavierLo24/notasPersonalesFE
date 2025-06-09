@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
-import { EtiquetasListComponent } from "../../components/etiquetas-list/etiquetas-list.component";
-import { AddUpEtiquetaComponent } from "../../components/add-up-etiqueta/add-up-etiqueta.component";
+import { EtiquetasListComponent } from "../components/etiquetas-list/etiquetas-list.component";
+import { AddUpEtiquetaComponent } from "../components/add-up-etiqueta/add-up-etiqueta.component";
 
 @Component({
   selector: 'app-etiqueta',

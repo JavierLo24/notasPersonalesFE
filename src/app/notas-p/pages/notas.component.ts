@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
-import { NotasListComponent } from "../../components/notas-list/notas-list.component";
-import { AddUpNotasComponent } from "../../components/add-up-notas/add-up-notas.component";
+import { NotasListComponent } from '../components/notas-list/notas-list.component';
+import { AddUpNotasComponent } from '../components/add-up-notas/add-up-notas.component';
 
 @Component({
   selector: 'app-notas',

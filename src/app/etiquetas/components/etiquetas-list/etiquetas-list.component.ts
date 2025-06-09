@@ -45,7 +45,6 @@ import { Component, EventEmitter, Output } from '@angular/core';
 
     table, th, td {
       border: 1px solid black;
-
     }
   `
 })
