@@ -13,17 +13,18 @@ import { Etiqueta } from '../../etiquetas/interfaces/etiqueta';
     @if(!addModalOpen){
     <app-notas-list
       [notasPList]="notasPList"
-      (closeModal)="toggleAddModal()"
+      (editModal)="toggleAddModal($event.id)"
     ></app-notas-list>
     <div>
-      <button (click)="toggleAddModal()">Add Notas</button>
+      <button (click)="toggleAddModal(0)">Add Notas</button>
     </div>
     } @if(addModalOpen){
-    <button (click)="toggleAddModal()">Close</button>
+    <button (click)="toggleAddModal(0)">Close</button>
     <app-add-up-notas
       [etiquetaList]="etiquetasList"
+      [notasPDetalle]="notasDetalle"
       (saveNotas)="saveNotas($event)"
-      (closeModal)="toggleAddModal()"
+      (closeModal)="toggleAddModal(0)"
     ></app-add-up-notas>
     }
   `,
@@ -33,6 +34,7 @@ export class NotasComponent implements OnInit {
   addModalOpen: boolean = false;
   notasPList: NotasP[] = [];
   etiquetasList: Etiqueta[] = [];
+  notasDetalle: NotasP | null = null;
 
   constructor(
     private notasPService: NotasPService,
@@ -44,8 +46,13 @@ export class NotasComponent implements OnInit {
     this.getEtiquetasList();
   }
 
-  toggleAddModal() {
-    this.addModalOpen = !this.addModalOpen;
+  toggleAddModal(id: number) {
+    if (id) {
+      this.getNotasPDetalle(id);
+    } else {
+      this.notasDetalle = null;
+    }
+
   }
 
   getNotasPList() {
@@ -55,6 +62,18 @@ export class NotasComponent implements OnInit {
       },
       error: (error) => {
         console.error('Error al obtener las notas personales:', error);
+      },
+    });
+  }
+
+  getNotasPDetalle(id: number) {
+    this.notasPService.getNotasPDetalle(id).subscribe({
+      next: (data) => {
+        this.notasDetalle = data;
+        this.addModalOpen = !this.addModalOpen;
+      },
+      error: (error) => {
+        console.error('Error al obtener la nota personal:', error);
       },
     });
   }

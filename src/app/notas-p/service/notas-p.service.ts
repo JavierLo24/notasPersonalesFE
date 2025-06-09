@@ -13,6 +13,10 @@ export class NotasPService {
     return this.http.get<NotasP[]>('http://localhost:8080/notas');
   }
 
+  getNotasPDetalle(id: number) {
+    return this.http.get<NotasP>('http://localhost:8080/notas/' + id);
+  }
+
   saveNotasP(nota: NotasP) {
     return this.http.post<NotasP>('http://localhost:8080/notas/crear', nota);
   }

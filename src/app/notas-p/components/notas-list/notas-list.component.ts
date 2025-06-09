@@ -15,7 +15,7 @@ import { NotasP } from '../../interfaces/notas-p';
         <h3 class="nota-title">{{ nota.titulo }}</h3>
         <p class="nota-content">{{ nota.contenido }}</p>
         <div>
-          <button (click)="onCloseModal()">Editar</button>
+          <button (click)="onEditNota(nota.id)">Editar</button>
           <button>Eliminar</button>
         </div>
       </div>
@@ -54,11 +54,11 @@ import { NotasP } from '../../interfaces/notas-p';
 })
 export class NotasListComponent {
   @Input() notasPList: NotasP[] = [];
-  @Output() closeModal: EventEmitter<Boolean> = new EventEmitter<Boolean>();
+  @Output() editModal = new EventEmitter<{ id: number }>();
 
   constructor() {}
 
-  onCloseModal() {
-    this.closeModal.emit(true);
+  onEditNota(idNota: number) {
+    this.editModal.emit({ id: idNota });
   }
 }

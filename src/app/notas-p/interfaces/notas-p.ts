@@ -2,6 +2,6 @@ export interface NotasP {
   id: number;
   titulo: string;
   contenido: string;
-  etiquetas: string[];
+  etiqueta: number[];
   fechaCreacion: Date | null;
 }

@@ -1,6 +1,7 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { Etiqueta } from '../../../etiquetas/interfaces/etiqueta';
 import { FormBuilder, ReactiveFormsModule } from '@angular/forms';
+import { NotasP } from '../../interfaces/notas-p';
 
 @Component({
   selector: 'app-add-up-notas',
@@ -111,6 +112,7 @@ import { FormBuilder, ReactiveFormsModule } from '@angular/forms';
 })
 export class AddUpNotasComponent implements OnInit {
   @Input() etiquetaList: Etiqueta[] = [];
+  @Input() notasPDetalle: any | null = null
   @Output() closeModal: EventEmitter<Boolean> = new EventEmitter<Boolean>();
   @Output() saveNotas: EventEmitter<any> = new EventEmitter<any>();
 
@@ -126,6 +128,20 @@ export class AddUpNotasComponent implements OnInit {
 
   ngOnInit(): void {
     this.notasForm
+    console.log('Notas Form Initialized:', this.notasPDetalle);
+    if(this.notasPDetalle) {
+      this.notasForm.patchValue({
+        title: this.notasPDetalle.titulo,
+        content: this.notasPDetalle.contenido,
+        etiqueta: this.etiquetaList.find(
+          (et) =>
+            et.id === this.notasPDetalle?.etiquetas[0].id || {
+              id: 0,
+              etiqueta: '',
+            }
+        ),
+      });
+    }
   }
 
   submitNota() {
