@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
+import { Etiqueta } from '../../interfaces/etiqueta';
 
 @Component({
   selector: 'app-add-up-etiqueta',
@@ -53,4 +54,9 @@ import { Component } from '@angular/core';
     }
     `,
 })
-export class AddUpEtiquetaComponent {}
+export class AddUpEtiquetaComponent {
+
+
+  constructor() {}
+
+}
