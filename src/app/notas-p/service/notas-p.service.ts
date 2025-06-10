@@ -20,4 +20,11 @@ export class NotasPService {
   saveNotasP(nota: NotasP) {
     return this.http.post<NotasP>('http://localhost:8080/notas/crear', nota);
   }
+
+  updateNotasP(nota: NotasP, notaId: number) {
+    return this.http.put<NotasP>(
+      'http://localhost:8080/notas/editar/' + notaId,
+      nota
+    );
+  }
 }

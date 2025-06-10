@@ -1,7 +1,9 @@
+import { Etiqueta } from "../../etiquetas/interfaces/etiqueta";
+
 export interface NotasP {
   id: number;
   titulo: string;
   contenido: string;
-  etiqueta: number[];
+  etiquetas: Etiqueta[];
   fechaCreacion: Date | null;
 }

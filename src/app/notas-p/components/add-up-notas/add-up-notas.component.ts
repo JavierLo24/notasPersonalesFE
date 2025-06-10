@@ -9,8 +9,14 @@ import { NotasP } from '../../interfaces/notas-p';
   template: `
     <div class="add-up-notas">
       <div class="header">
-        <h2>Agregar/Editar Notas</h2>
-        <p>Agrega o edita tus notas personales.</p>
+        <h2>{{ notasPDetalle != null ? 'Editar Nota' : 'Agregar Nota' }}</h2>
+        <p>
+          {{
+            notasPDetalle != null
+              ? 'Editando nota número ' + notasPDetalle.id
+              : 'Agregando nota'
+          }}
+        </p>
       </div>
       <div class="form-container">
         <form action="" [formGroup]="notasForm" (ngSubmit)="submitNota()">
@@ -37,19 +43,18 @@ import { NotasP } from '../../interfaces/notas-p';
             required
           ></textarea>
           <br />
-          <label for="etiqueta" class="etiqueta-label">Etiqueta</label>
-          <select
-            name="etiqueta"
-            id="etiqueta"
-            required
-            class="etiqueta-select"
-            formControlName="etiqueta"
-          >
-            <option value="" disabled selected>Seleccione una etiqueta</option>
+          <fieldset>
+            <legend>Etiquetas</legend>
             @for (etiqueta of etiquetaList; track etiqueta.id) {
-            <option value="{{ etiqueta.etiqueta }}">{{ etiqueta.etiqueta }}</option>
+            <label>
+              <input
+                type="checkbox"
+                [value]="etiqueta.id"
+              />
+              {{ etiqueta.etiqueta }}
+            </label>
             }
-          </select>
+          </fieldset>
           <br />
           <button
             type="submit"
@@ -112,8 +117,8 @@ import { NotasP } from '../../interfaces/notas-p';
 })
 export class AddUpNotasComponent implements OnInit {
   @Input() etiquetaList: Etiqueta[] = [];
-  @Input() notasPDetalle: any | null = null
-  @Output() closeModal: EventEmitter<Boolean> = new EventEmitter<Boolean>();
+  @Input() notasPDetalle: NotasP | null = null;
+  @Output() closeModal: EventEmitter<any> = new EventEmitter<any>();
   @Output() saveNotas: EventEmitter<any> = new EventEmitter<any>();
 
   notasForm: any;
@@ -127,22 +132,22 @@ export class AddUpNotasComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.notasForm
+    this.notasForm;
     console.log('Notas Form Initialized:', this.notasPDetalle);
-    if(this.notasPDetalle) {
-      this.notasForm.patchValue({
-        title: this.notasPDetalle.titulo,
-        content: this.notasPDetalle.contenido,
-        etiqueta: this.etiquetaList.find(
-          (et) =>
-            et.id === this.notasPDetalle?.etiquetas[0].id || {
-              id: 0,
-              etiqueta: '',
-            }
-        ),
-      });
-    }
-  }
+    if (this.notasPDetalle) {
+          this.notasForm.patchValue({
+            title: this.notasPDetalle.titulo,
+            content: this.notasPDetalle.contenido,
+            etiqueta: this.etiquetaList.find(
+              (et) =>
+                et.id === this.notasPDetalle?.etiquetas[0].id || {
+                  id: 0,
+                  etiqueta: '',
+                }
+            ),
+          });
+      }
+   }
 
   submitNota() {
     const notaData: any = {
@@ -154,6 +159,6 @@ export class AddUpNotasComponent implements OnInit {
   }
 
   onCloseModal() {
-    this.closeModal.emit(true);
+    this.closeModal.emit();
   }
 }

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { NotasListComponent } from '../components/notas-list/notas-list.component';
 import { AddUpNotasComponent } from '../components/add-up-notas/add-up-notas.component';
 import { NotasPService } from '../service/notas-p.service';
@@ -19,12 +19,12 @@ import { Etiqueta } from '../../etiquetas/interfaces/etiqueta';
       <button (click)="toggleAddModal(0)">Add Notas</button>
     </div>
     } @if(addModalOpen){
-    <button (click)="toggleAddModal(0)">Close</button>
+    <button (click)="closeAddModal()">Close</button>
     <app-add-up-notas
       [etiquetaList]="etiquetasList"
       [notasPDetalle]="notasDetalle"
       (saveNotas)="saveNotas($event)"
-      (closeModal)="toggleAddModal(0)"
+      (closeModal)="closeAddModal()"
     ></app-add-up-notas>
     }
   `,
@@ -37,6 +37,7 @@ export class NotasComponent implements OnInit {
   notasDetalle: NotasP | null = null;
 
   constructor(
+    private cdr: ChangeDetectorRef,
     private notasPService: NotasPService,
     private etiquetaService: EtiquetasService
   ) {}
@@ -47,12 +48,19 @@ export class NotasComponent implements OnInit {
   }
 
   toggleAddModal(id: number) {
-    if (id) {
+    if (id != 0) {
       this.getNotasPDetalle(id);
+      this.cdr.detectChanges(); // Asegura que los cambios se reflejen en la vista
+      console.log('Notas Detalle:', this.notasDetalle);
     } else {
       this.notasDetalle = null;
+      this.addModalOpen = true;
     }
+    //this.addModalOpen = !this.addModalOpen;
+  }
 
+  closeAddModal() {
+    this.addModalOpen = false;
   }
 
   getNotasPList() {
@@ -70,7 +78,8 @@ export class NotasComponent implements OnInit {
     this.notasPService.getNotasPDetalle(id).subscribe({
       next: (data) => {
         this.notasDetalle = data;
-        this.addModalOpen = !this.addModalOpen;
+        this.cdr.detectChanges(); // Asegura que los cambios se reflejen en la vista
+        this.addModalOpen = true;
       },
       error: (error) => {
         console.error('Error al obtener la nota personal:', error);
