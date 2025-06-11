@@ -14,16 +14,17 @@ import { Etiqueta } from '../../etiquetas/interfaces/etiqueta';
     <app-notas-list
       [notasPList]="notasPList"
       (editModal)="toggleAddModal($event.id)"
+      (deleteModal)="deleteNotas($event.id)"
     ></app-notas-list>
     <div>
-      <button (click)="toggleAddModal(0)">Add Notas</button>
+      <button (click)="toggleAddModal(0)">Crear Nota Personal</button>
     </div>
     } @if(addModalOpen){
-    <button (click)="closeAddModal()">Close</button>
+    <button (click)="closeAddModal()">Cerrar</button>
     <app-add-up-notas
       [etiquetaList]="etiquetasList"
       [notasPDetalle]="notasDetalle"
-      (saveNotas)="saveNotas($event)"
+      (saveNotas)="saveOrUpdateNotas($event)"
       (closeModal)="closeAddModal()"
     ></app-add-up-notas>
     }
@@ -56,10 +57,10 @@ export class NotasComponent implements OnInit {
       this.notasDetalle = null;
       this.addModalOpen = true;
     }
-    //this.addModalOpen = !this.addModalOpen;
   }
 
   closeAddModal() {
+    this.getNotasPList();
     this.addModalOpen = false;
   }
 
@@ -98,13 +99,47 @@ export class NotasComponent implements OnInit {
     });
   }
 
+  saveOrUpdateNotas(nota: NotasP) {
+    if (nota.id != null) {
+      this.updateNotas(nota, nota.id);
+    } else {
+      this.saveNotas(nota);
+    }
+    this.closeAddModal();
+  }
+
   saveNotas(nota: NotasP) {
     this.notasPService.saveNotasP(nota).subscribe({
       next: (data) => {
+        this.getNotasPList();
         console.log('Nota guardada:', data);
       },
       error: (error) => {
         console.error('Error al guardar la nota:', error);
+      },
+    });
+  }
+
+  updateNotas(nota: NotasP, notaId: number) {
+    this.notasPService.updateNotasP(nota, notaId).subscribe({
+      next: (data) => {
+        this.getNotasPList();
+        console.log('Nota actualizada:', data);
+      },
+      error: (error) => {
+        console.error('Error al actualizar la nota:', error);
+      },
+    });
+  }
+
+  deleteNotas(notaId: number) {
+    this.notasPService.deleteNotasP(notaId).subscribe({
+      next: (data) => {
+        this.getNotasPList();
+        console.log('Nota eliminada:', data);
+      },
+      error: (error) => {
+        console.error('Error al eliminar la nota:', error);
       },
     });
   }

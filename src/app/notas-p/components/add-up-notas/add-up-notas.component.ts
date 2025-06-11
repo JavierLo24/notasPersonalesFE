@@ -1,6 +1,6 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { Etiqueta } from '../../../etiquetas/interfaces/etiqueta';
-import { FormBuilder, ReactiveFormsModule } from '@angular/forms';
+import { FormArray, FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { NotasP } from '../../interfaces/notas-p';
 
 @Component({
@@ -50,6 +50,10 @@ import { NotasP } from '../../interfaces/notas-p';
               <input
                 type="checkbox"
                 [value]="etiqueta.id"
+                [checked]="
+                  notasForm.get('etiqueta').value.includes(etiqueta.id)
+                "
+                (change)="onCheckboxChange($event)"
               />
               {{ etiqueta.etiqueta }}
             </label>
@@ -61,7 +65,7 @@ import { NotasP } from '../../interfaces/notas-p';
             class="btn btn-primary"
             (click)="onCloseModal()"
           >
-            Agregar Nota
+            {{ notasPDetalle != null ? 'Actualizar Nota' : 'Guardar Nota' }}
           </button>
         </form>
       </div>
@@ -125,36 +129,55 @@ export class AddUpNotasComponent implements OnInit {
 
   constructor(private fb: FormBuilder) {
     this.notasForm = this.fb.group({
-      title: [''],
-      content: [''],
-      etiqueta: [''],
+      title: ['', Validators.required],
+      content: ['', Validators.required],
+      etiqueta: this.fb.array([], Validators.required),
     });
   }
 
   ngOnInit(): void {
     this.notasForm;
-    console.log('Notas Form Initialized:', this.notasPDetalle);
     if (this.notasPDetalle) {
-          this.notasForm.patchValue({
-            title: this.notasPDetalle.titulo,
-            content: this.notasPDetalle.contenido,
-            etiqueta: this.etiquetaList.find(
-              (et) =>
-                et.id === this.notasPDetalle?.etiquetas[0].id || {
-                  id: 0,
-                  etiqueta: '',
-                }
-            ),
-          });
+      this.notasForm.patchValue({
+        title: this.notasPDetalle.titulo,
+        content: this.notasPDetalle.contenido,
+      });
+      this.setCheckboxes();
+    }
+  }
+
+  setCheckboxes() {
+    const etiquetaArray = this.notasForm.get('etiqueta') as FormArray;
+    this.notasPDetalle?.etiquetas.forEach((id) => {
+      etiquetaArray.push(this.fb.control(id));
+    });
+  }
+
+  onCheckboxChange(event: any) {
+    const etiquetaArray: FormArray = this.notasForm.get(
+      'etiqueta'
+    ) as FormArray;
+    const idSelected = Number(event.target.value);
+    if (event.target.checked) {
+      etiquetaArray.push(this.fb.control(idSelected));
+    } else {
+      const index = etiquetaArray.controls.findIndex(
+        (x: { value: number }) => x.value === idSelected
+      );
+      if (index !== -1) {
+        etiquetaArray.removeAt(index);
       }
-   }
+    }
+  }
 
   submitNota() {
     const notaData: any = {
+      id: this.notasPDetalle ? this.notasPDetalle.id : null,
       title: this.notasForm.value.title,
       content: this.notasForm.value.content,
-      etiquetasIds: [this.notasForm.value.etiqueta.id],
+      etiquetasIds: this.notasForm.value.etiqueta,
     };
+    console.log('Nota Data:', notaData);
     this.saveNotas.emit(notaData);
   }
 

@@ -12,11 +12,12 @@ import { NotasP } from '../../interfaces/notas-p';
     @for (nota of notasPList; track nota.id) {
     <div class="notas-container">
       <div class="nota-container">
+        {{ nota.id }}
         <h3 class="nota-title">{{ nota.titulo }}</h3>
         <p class="nota-content">{{ nota.contenido }}</p>
         <div>
           <button (click)="onEditNota(nota.id)">Editar</button>
-          <button>Eliminar</button>
+          <button (click)="onDeleteNota(nota.id)">Eliminar</button>
         </div>
       </div>
     </div>
@@ -55,10 +56,15 @@ import { NotasP } from '../../interfaces/notas-p';
 export class NotasListComponent {
   @Input() notasPList: NotasP[] = [];
   @Output() editModal = new EventEmitter<{ id: number }>();
+  @Output() deleteModal = new EventEmitter<{ id: number }>();
 
   constructor() {}
 
   onEditNota(idNota: number) {
     this.editModal.emit({ id: idNota });
+  }
+
+  onDeleteNota(idNota: number) {
+    this.deleteModal.emit({ id: idNota });
   }
 }

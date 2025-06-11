@@ -27,4 +27,8 @@ export class NotasPService {
       nota
     );
   }
+
+  deleteNotasP(notaId: number) {
+    return this.http.delete('http://localhost:8080/notas/eliminar/' + notaId);
+  }
 }
