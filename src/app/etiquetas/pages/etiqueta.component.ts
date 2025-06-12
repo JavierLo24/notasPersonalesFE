@@ -63,7 +63,7 @@ export class EtiquetaComponent implements OnInit {
         this.etiquetas = data;
       },
       error: (error) => {
-        console.error('Error al obtener las etiquetas:', error);
+        alert('Error al obtener la lista de etiquetas');
       },
     });
   }
@@ -76,13 +76,12 @@ export class EtiquetaComponent implements OnInit {
         this.addModalOpen = true;
       },
       error: (error) => {
-        console.error('Error al obtener el detalle de la etiqueta:', error);
+        alert('Error al obtener el detalle de la etiqueta');
       },
     });
   }
 
   etiquetaSave(etiqueta: Etiqueta) {
-    console.log('Etiqueta a guardar o actualizar:', etiqueta);
     if (etiqueta.id) {
       this.updateEtiqueta(etiqueta, etiqueta.id);
     } else {
@@ -94,10 +93,10 @@ export class EtiquetaComponent implements OnInit {
     this.etiquetasService.saveEtiqueta(etiqueta).subscribe({
       next: (data) => {
         this.getEtiquetasList();
-        console.log('Nota guardada:', data);
+        alert('Etiqueta guardada correctamente');
       },
       error: (error) => {
-        console.error('Error al guardar la nota:', error);
+        alert('Error al guardar la etiqueta');
       },
     });
   }
@@ -106,10 +105,10 @@ export class EtiquetaComponent implements OnInit {
     this.etiquetasService.updateEtiqueta(etiqueta, etiquetaId).subscribe({
       next: (data) => {
         this.getEtiquetasList();
-        console.log('Nota actualizada:', data);
+        alert('Etiqueta actualizada correctamente');
       },
       error: (error) => {
-        console.error('Error al actualizar la nota:', error);
+        alert('Error al actualizar la etiqueta');
       },
     });
   }
@@ -118,10 +117,10 @@ export class EtiquetaComponent implements OnInit {
     this.etiquetasService.deleteEtiqueta(etiquetaId).subscribe({
       next: (data) => {
         this.getEtiquetasList();
-        console.log('Nota eliminada:', data);
+        alert('Etiqueta eliminada correctamente');
       },
       error: (error) => {
-        console.error('Error al eliminar la nota:', error);
+        alert('Error al eliminar la etiqueta');
       },
     });
   }

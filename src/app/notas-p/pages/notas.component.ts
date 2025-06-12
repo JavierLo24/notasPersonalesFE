@@ -69,7 +69,7 @@ export class NotasComponent implements OnInit {
         this.notasPList = data;
       },
       error: (error) => {
-        console.error('Error al obtener las notas personales:', error);
+        alert('Error al obtener las notas personales');
       },
     });
   }
@@ -82,7 +82,7 @@ export class NotasComponent implements OnInit {
         this.addModalOpen = true;
       },
       error: (error) => {
-        console.error('Error al obtener la nota personal:', error);
+        alert('Error al obtener la nota personal');
       },
     });
   }
@@ -93,7 +93,7 @@ export class NotasComponent implements OnInit {
         this.etiquetasList = data;
       },
       error: (error) => {
-        console.error('Error al obtener las etiquetas:', error);
+        alert('Error al obtener las etiquetas');
       },
     });
   }
@@ -111,10 +111,10 @@ export class NotasComponent implements OnInit {
     this.notasPService.saveNotasP(nota).subscribe({
       next: (data) => {
         this.getNotasPList();
-        console.log('Nota guardada:', data);
+        alert('Nota guardada correctamente');
       },
       error: (error) => {
-        console.error('Error al guardar la nota:', error);
+        alert('Error al guardar la nota');
       },
     });
   }
@@ -123,10 +123,10 @@ export class NotasComponent implements OnInit {
     this.notasPService.updateNotasP(nota, notaId).subscribe({
       next: (data) => {
         this.getNotasPList();
-        console.log('Nota actualizada:', data);
+        alert('Nota actualizada correctamente');
       },
       error: (error) => {
-        console.error('Error al actualizar la nota:', error);
+        alert('Error al actualizar la nota');
       },
     });
   }
@@ -135,10 +135,10 @@ export class NotasComponent implements OnInit {
     this.notasPService.deleteNotasP(notaId).subscribe({
       next: (data) => {
         this.getNotasPList();
-        console.log('Nota eliminada:', data);
+        alert('Nota eliminada correctamente');
       },
       error: (error) => {
-        console.error('Error al eliminar la nota:', error);
+        alert('Error al eliminar la nota');
       },
     });
   }
