@@ -1,7 +1,7 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { Etiqueta } from '../../../etiquetas/interfaces/etiqueta';
 import { FormArray, FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
-import { NotasP } from '../../interfaces/notas-p';
+import { NotasP, NotasPForm } from '../../interfaces/notas-p';
 
 @Component({
   selector: 'app-add-up-notas',
@@ -63,7 +63,6 @@ import { NotasP } from '../../interfaces/notas-p';
           <button
             type="submit"
             class="btn btn-primary"
-            (click)="onCloseModal()"
           >
             {{ notasPDetalle != null ? 'Actualizar Nota' : 'Guardar Nota' }}
           </button>
@@ -122,8 +121,8 @@ import { NotasP } from '../../interfaces/notas-p';
 export class AddUpNotasComponent implements OnInit {
   @Input() etiquetaList: Etiqueta[] = [];
   @Input() notasPDetalle: NotasP | null = null;
-  @Output() closeModal: EventEmitter<any> = new EventEmitter<any>();
-  @Output() saveNotas: EventEmitter<any> = new EventEmitter<any>();
+  @Output() closeModal = new EventEmitter();
+  @Output() saveNotas = new EventEmitter<NotasPForm>();
 
   notasForm: any;
 
@@ -171,17 +170,13 @@ export class AddUpNotasComponent implements OnInit {
   }
 
   submitNota() {
-    const notaData: any = {
+    const notaData: NotasPForm = {
       id: this.notasPDetalle ? this.notasPDetalle.id : null,
       title: this.notasForm.value.title,
       content: this.notasForm.value.content,
       etiquetasIds: this.notasForm.value.etiqueta,
     };
-    console.log('Nota Data:', notaData);
-    this.saveNotas.emit(notaData);
-  }
-
-  onCloseModal() {
     this.closeModal.emit();
+    this.saveNotas.emit(notaData);
   }
 }

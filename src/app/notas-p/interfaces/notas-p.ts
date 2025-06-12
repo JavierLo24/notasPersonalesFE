@@ -7,3 +7,10 @@ export interface NotasP {
   etiquetas: Etiqueta[];
   fechaCreacion: Date | null;
 }
+
+export interface NotasPForm {
+  id: number | null;
+  title: string;
+  content: string;
+  etiquetasIds: number[];
+}

@@ -1,9 +1,10 @@
-import { Component, Input } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { Etiqueta } from '../../interfaces/etiqueta';
+import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-add-up-etiqueta',
-  imports: [],
+  imports: [ReactiveFormsModule],
   template: `
     <div class="container">
       <div class="header">
@@ -11,13 +12,18 @@ import { Etiqueta } from '../../interfaces/etiqueta';
         <p>Agrega o edita tus etiquetas.</p>
       </div>
       <div class="form-container">
-        <form action="">
+        <form
+          action=""
+          [formGroup]="etiquetaForm"
+          (ngSubmit)="submitEtiqueta()"
+        >
           <label for="etiqueta" class="etiqueta-label">Etiqueta</label>
           <input
             type="text"
             id="etiqueta"
             name="etiqueta"
             placeholder="Etiqueta"
+            formControlName="etiqueta"
             required
           />
           <br />
@@ -54,9 +60,32 @@ import { Etiqueta } from '../../interfaces/etiqueta';
     }
     `,
 })
-export class AddUpEtiquetaComponent {
+export class AddUpEtiquetaComponent implements OnInit {
+  @Input() etiquetaDetalle: Etiqueta | null = null;
+  @Output() saveEtiqueta: EventEmitter<Etiqueta> = new EventEmitter<Etiqueta>();
+  @Output() closeModal = new EventEmitter();
 
+  etiquetaForm: any;
 
-  constructor() {}
+  constructor(private fb: FormBuilder) {}
 
+  ngOnInit(): void {
+    this.etiquetaForm = this.fb.group({
+      etiqueta: ['', Validators.required],
+    });
+    if (this.etiquetaDetalle) {
+      this.etiquetaForm.patchValue({
+        etiqueta: this.etiquetaDetalle.etiqueta,
+      });
+    }
+  }
+
+  submitEtiqueta() {
+    const etiqueta: Etiqueta = {
+      id: this.etiquetaDetalle ? this.etiquetaDetalle.id : 0,
+      etiqueta: this.etiquetaForm.value.etiqueta,
+    };
+    this.saveEtiqueta.emit(etiqueta);
+    this.closeModal.emit();
+  }
 }

@@ -1,13 +1,12 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { NotasP } from '../interfaces/notas-p';
+import { NotasP, NotasPForm } from '../interfaces/notas-p';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class NotasPService {
-
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient) {}
 
   getNotasP() {
     return this.http.get<NotasP[]>('http://localhost:8080/notas');
@@ -17,11 +16,11 @@ export class NotasPService {
     return this.http.get<NotasP>('http://localhost:8080/notas/' + id);
   }
 
-  saveNotasP(nota: NotasP) {
+  saveNotasP(nota: NotasPForm) {
     return this.http.post<NotasP>('http://localhost:8080/notas/crear', nota);
   }
 
-  updateNotasP(nota: NotasP, notaId: number) {
+  updateNotasP(nota: NotasPForm, notaId: number) {
     return this.http.put<NotasP>(
       'http://localhost:8080/notas/editar/' + notaId,
       nota

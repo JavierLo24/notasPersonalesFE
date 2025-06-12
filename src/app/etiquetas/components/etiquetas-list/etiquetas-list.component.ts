@@ -20,10 +20,11 @@ import { Etiqueta } from '../../interfaces/etiqueta';
         <tr>
           <td>{{ etiqueta.etiqueta }}</td>
           <td>
-            <button (click)="toggleAddModal()">Editar</button>
-            <button>Eliminar</button>
+            <button (click)="onEditEtiqueta(etiqueta.id)">Editar</button>
+            <button (click)="onDeleteEtiqueta(etiqueta.id)">Eliminar</button>
           </td>
-          }
+        </tr>
+        }
       </table>
     </div>
   `,
@@ -51,9 +52,16 @@ import { Etiqueta } from '../../interfaces/etiqueta';
 })
 export class EtiquetasListComponent {
   @Input() etiquetasList: Etiqueta[] = [];
-  @Output() closeModal: EventEmitter<Boolean> = new EventEmitter<Boolean>();
+  @Output() editModal = new EventEmitter<{ id: number }>();
+  @Output() deleteModal = new EventEmitter<{ id: number }>();
 
-  toggleAddModal() {
-    this.closeModal.emit(true);
+  constructor() {}
+
+  onEditEtiqueta(idEtiqueta: number) {
+    this.editModal.emit({ id: idEtiqueta });
+  }
+
+  onDeleteEtiqueta(idEtiqueta: number) {
+    this.deleteModal.emit({ id: idEtiqueta });
   }
 }

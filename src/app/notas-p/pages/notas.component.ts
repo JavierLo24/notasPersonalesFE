@@ -2,7 +2,7 @@ import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { NotasListComponent } from '../components/notas-list/notas-list.component';
 import { AddUpNotasComponent } from '../components/add-up-notas/add-up-notas.component';
 import { NotasPService } from '../service/notas-p.service';
-import { NotasP } from '../interfaces/notas-p';
+import { NotasP, NotasPForm } from '../interfaces/notas-p';
 import { EtiquetasService } from '../../etiquetas/service/etiquetas.service';
 import { Etiqueta } from '../../etiquetas/interfaces/etiqueta';
 
@@ -51,8 +51,7 @@ export class NotasComponent implements OnInit {
   toggleAddModal(id: number) {
     if (id != 0) {
       this.getNotasPDetalle(id);
-      this.cdr.detectChanges(); // Asegura que los cambios se reflejen en la vista
-      console.log('Notas Detalle:', this.notasDetalle);
+      this.cdr.detectChanges();
     } else {
       this.notasDetalle = null;
       this.addModalOpen = true;
@@ -99,7 +98,7 @@ export class NotasComponent implements OnInit {
     });
   }
 
-  saveOrUpdateNotas(nota: NotasP) {
+  saveOrUpdateNotas(nota: NotasPForm) {
     if (nota.id != null) {
       this.updateNotas(nota, nota.id);
     } else {
@@ -108,7 +107,7 @@ export class NotasComponent implements OnInit {
     this.closeAddModal();
   }
 
-  saveNotas(nota: NotasP) {
+  saveNotas(nota: NotasPForm) {
     this.notasPService.saveNotasP(nota).subscribe({
       next: (data) => {
         this.getNotasPList();
@@ -120,7 +119,7 @@ export class NotasComponent implements OnInit {
     });
   }
 
-  updateNotas(nota: NotasP, notaId: number) {
+  updateNotas(nota: NotasPForm, notaId: number) {
     this.notasPService.updateNotasP(nota, notaId).subscribe({
       next: (data) => {
         this.getNotasPList();
