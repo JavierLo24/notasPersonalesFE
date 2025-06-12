@@ -10,22 +10,24 @@ import { Etiqueta } from '../../interfaces/etiqueta';
       <h1 class="main-title">Etiquetas</h1>
       <h2 class="sub-title">Lista de etiquetas</h2>
     </div>
-    <div class="etiqueta-table">
-      <table>
-        <tr>
-          <th>Etiqueta</th>
-          <th>Acciones</th>
-        </tr>
-        @for (etiqueta of etiquetasList; track etiqueta.id) {
-        <tr>
-          <td>{{ etiqueta.etiqueta }}</td>
-          <td>
-            <button (click)="onEditEtiqueta(etiqueta.id)">Editar</button>
-            <button (click)="onDeleteEtiqueta(etiqueta.id)">Eliminar</button>
-          </td>
-        </tr>
-        }
-      </table>
+    <div class="table-container">
+      <div class="etiqueta-table">
+        <table>
+          <tr>
+            <th>Etiqueta</th>
+            <th>Acciones</th>
+          </tr>
+          @for (etiqueta of etiquetasList; track etiqueta.id) {
+          <tr>
+            <td>{{ etiqueta.etiqueta }}</td>
+            <td>
+              <button (click)="onEditEtiqueta(etiqueta.id)">Editar</button>
+              <button (click)="onDeleteEtiqueta(etiqueta.id)">Eliminar</button>
+            </td>
+          </tr>
+          }
+        </table>
+      </div>
     </div>
   `,
   styles: `
@@ -37,6 +39,12 @@ import { Etiqueta } from '../../interfaces/etiqueta';
     .sub-title {
       font-size: 20px;
       text-align: center;
+    }
+
+    .table-container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
     }
 
     .etiqueta-table {
