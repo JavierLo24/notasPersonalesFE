@@ -8,8 +8,8 @@ import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
   template: `
     <div class="container">
       <div class="header">
-        <h1 class="main-title">Agregar/Editar Etiqueta</h1>
-        <p>Agrega o edita tus etiquetas.</p>
+        <h1 class="main-title">{{etiquetaDetalle ? 'Editar Etiqueta' : 'Agregar Etiqueta'}}</h1>
+        <p>{{etiquetaDetalle ? 'Editando etiqueta número ' + etiquetaDetalle.id : 'Agregando etiqueta'}}</p>
       </div>
       <div class="form-container">
         <form
@@ -24,11 +24,12 @@ import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
             name="etiqueta"
             placeholder="Etiqueta"
             formControlName="etiqueta"
+            class="etiqueta-input"
             required
           />
           <br />
-          <button type="submit" class="btn btn-primary">
-            Agregar Etiqueta
+          <button type="submit" class="btn-save">
+            {{ etiquetaDetalle ? 'Actualizar Etiqueta' : 'Agregar Etiqueta' }}
           </button>
         </form>
       </div>
@@ -57,6 +58,18 @@ import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
     }
     .etiqueta-label {
       font-size: 20px;
+      margin-bottom: 10px;
+      margin-top: 10px;
+      text-align: center;
+    }
+    .etiqueta-input {
+      width: 100%;
+      padding: 10px;
+      margin-bottom: 10px;
+    }
+    .btn-save {
+      width: 100%;
+      padding: 10px;
     }
     `,
 })
