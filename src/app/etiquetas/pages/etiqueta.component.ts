@@ -63,7 +63,7 @@ export class EtiquetaComponent implements OnInit {
         this.etiquetas = data;
       },
       error: (error) => {
-        alert('Error al obtener la lista de etiquetas');
+        alert('ERROR: ' + error.error.message);
       },
     });
   }
@@ -76,7 +76,7 @@ export class EtiquetaComponent implements OnInit {
         this.addModalOpen = true;
       },
       error: (error) => {
-        alert('Error al obtener el detalle de la etiqueta');
+        alert('ERROR: ' + error.error.message);
       },
     });
   }
@@ -96,7 +96,7 @@ export class EtiquetaComponent implements OnInit {
         alert('Etiqueta guardada correctamente');
       },
       error: (error) => {
-        alert('Error al guardar la etiqueta');
+        alert('ERROR: ' + error.error.message);
       },
     });
   }
@@ -108,7 +108,7 @@ export class EtiquetaComponent implements OnInit {
         alert('Etiqueta actualizada correctamente');
       },
       error: (error) => {
-        alert('Error al actualizar la etiqueta');
+        alert('ERROR: ' + error.error.message);
       },
     });
   }
@@ -120,7 +120,7 @@ export class EtiquetaComponent implements OnInit {
         alert('Etiqueta eliminada correctamente');
       },
       error: (error) => {
-        alert('Error al eliminar la etiqueta');
+        alert('ERROR: ' + error.error.message);
       },
     });
   }

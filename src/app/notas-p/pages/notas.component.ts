@@ -69,7 +69,7 @@ export class NotasComponent implements OnInit {
         this.notasPList = data;
       },
       error: (error) => {
-        alert('Error al obtener las notas personales');
+        alert('ERROR: ' + error.error.message);
       },
     });
   }
@@ -82,7 +82,7 @@ export class NotasComponent implements OnInit {
         this.addModalOpen = true;
       },
       error: (error) => {
-        alert('Error al obtener la nota personal');
+        alert('ERROR: ' + error.error.message);
       },
     });
   }
@@ -93,7 +93,7 @@ export class NotasComponent implements OnInit {
         this.etiquetasList = data;
       },
       error: (error) => {
-        alert('Error al obtener las etiquetas');
+        alert('ERROR: ' + error.error.message);
       },
     });
   }
@@ -114,7 +114,7 @@ export class NotasComponent implements OnInit {
         alert('Nota guardada correctamente');
       },
       error: (error) => {
-        alert('Error al guardar la nota');
+        alert('ERROR: ' + error.error.message);
       },
     });
   }
@@ -126,7 +126,7 @@ export class NotasComponent implements OnInit {
         alert('Nota actualizada correctamente');
       },
       error: (error) => {
-        alert('Error al actualizar la nota');
+        alert('ERROR: ' + error.error.message);
       },
     });
   }
@@ -138,7 +138,7 @@ export class NotasComponent implements OnInit {
         alert('Nota eliminada correctamente');
       },
       error: (error) => {
-        alert('Error al eliminar la nota');
+        alert('ERROR: ' + error.error.message);
       },
     });
   }
