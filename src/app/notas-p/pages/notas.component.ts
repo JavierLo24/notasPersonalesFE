@@ -12,7 +12,7 @@ import { Etiqueta } from '../../etiquetas/interfaces/etiqueta';
   template: `
     @if(!addModalOpen){
     <app-notas-list
-      [notasPList]="notasPList"
+      [notasPList]="notasPLista"
       (editModal)="toggleAddModal($event.id)"
       (deleteModal)="deleteNotas($event.id)"
     ></app-notas-list>
@@ -29,11 +29,12 @@ import { Etiqueta } from '../../etiquetas/interfaces/etiqueta';
     ></app-add-up-notas>
     }
   `,
-  styles: ``,
+  styles: `
+  `,
 })
 export class NotasComponent implements OnInit {
   addModalOpen: boolean = false;
-  notasPList: NotasP[] = [];
+  notasPLista: NotasP[] = [];
   etiquetasList: Etiqueta[] = [];
   notasDetalle: NotasP | null = null;
 
@@ -66,12 +67,30 @@ export class NotasComponent implements OnInit {
   getNotasPList() {
     this.notasPService.getNotasP().subscribe({
       next: (data) => {
-        this.notasPList = data;
+        this.notasPLista = data;
+        this.notasPLista.forEach((nota) => {
+          nota.color = this.getRandomColor();
+        });
       },
       error: (error) => {
         alert('ERROR: ' + error.error.message);
       },
     });
+  }
+
+  getRandomColor(): string {
+    const colors = [
+      '#FFCDD2',
+      '#F8BBD0',
+      '#E1BEE7',
+      '#BBDEFB',
+      '#C8E6C9',
+      '#FFF9C4',
+      '#FFE0B2',
+      '#D7CCC8',
+      '#CFD8DC',
+    ];
+    return colors[Math.floor(Math.random() * colors.length)];
   }
 
   getNotasPDetalle(id: number) {
