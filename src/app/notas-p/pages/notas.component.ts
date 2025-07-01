@@ -1,26 +1,37 @@
+import { Etiqueta } from './../../etiquetas/interfaces/etiqueta';
 import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { NotasListComponent } from '../components/notas-list/notas-list.component';
 import { AddUpNotasComponent } from '../components/add-up-notas/add-up-notas.component';
 import { NotasPService } from '../service/notas-p.service';
 import { NotasP, NotasPForm } from '../interfaces/notas-p';
 import { EtiquetasService } from '../../etiquetas/service/etiquetas.service';
-import { Etiqueta } from '../../etiquetas/interfaces/etiqueta';
+import { routes } from '../../app.routes';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-notas',
   imports: [NotasListComponent, AddUpNotasComponent],
   template: `
+    <div>
+      <h1 class="main-title">Notas personales</h1>
+      <h2 class="sub-title">Lista de notas</h2>
+    </div>
     @if(!addModalOpen){
+    <div>
+      <button class="btn" (click)="toggleAddModal(0)">
+        Crear Nota Personal
+      </button>
+      <button class="btn" (click)="toggleEtiqueta()">
+        Administrar Etiquetas
+      </button>
+    </div>
     <app-notas-list
       [notasPList]="notasPLista"
       (editModal)="toggleAddModal($event.id)"
       (deleteModal)="deleteNotas($event.id)"
     ></app-notas-list>
-    <div>
-      <button (click)="toggleAddModal(0)">Crear Nota Personal</button>
-    </div>
     } @if(addModalOpen){
-    <button (click)="closeAddModal()">Cerrar</button>
+    <button class="btn" (click)="closeAddModal()">Cerrar</button>
     <app-add-up-notas
       [etiquetaList]="etiquetasList"
       [notasPDetalle]="notasDetalle"
@@ -30,6 +41,30 @@ import { Etiqueta } from '../../etiquetas/interfaces/etiqueta';
     }
   `,
   styles: `
+    .main-title {
+      font-size: 33px;
+      text-align: center;
+      margin-top: 20px;
+    }
+    .sub-title {
+      font-size: 26px;
+      text-align: center;
+    }
+    .btn {
+      width: 200px;
+      height: 50px;
+      padding: 5px 10px;
+      margin: 10px;
+      font-size: 16px;
+      background-color:rgb(42, 95, 7);
+      color: white;
+      border: solid 1px #ccc;
+      border-radius: 5px;
+    }
+    .btn:hover {
+      background-color:rgb(34, 136, 6);
+      cursor: pointer;
+    }
   `,
 })
 export class NotasComponent implements OnInit {
@@ -41,7 +76,8 @@ export class NotasComponent implements OnInit {
   constructor(
     private cdr: ChangeDetectorRef,
     private notasPService: NotasPService,
-    private etiquetaService: EtiquetasService
+    private etiquetaService: EtiquetasService,
+    private router: Router
   ) {}
 
   ngOnInit(): void {
@@ -57,6 +93,10 @@ export class NotasComponent implements OnInit {
       this.notasDetalle = null;
       this.addModalOpen = true;
     }
+  }
+
+  toggleEtiqueta() {
+    this.router.navigate(['/etiquetas']);
   }
 
   closeAddModal() {

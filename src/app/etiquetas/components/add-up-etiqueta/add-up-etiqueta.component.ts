@@ -94,7 +94,7 @@ export class AddUpEtiquetaComponent implements OnInit {
   }
 
   submitEtiqueta() {
-    const etiqueta: Etiqueta = {
+    const etiqueta: any = {
       id: this.etiquetaDetalle ? this.etiquetaDetalle.id : 0,
       etiqueta: this.etiquetaForm.value.etiqueta,
     };

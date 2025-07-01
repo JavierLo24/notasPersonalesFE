@@ -6,10 +6,6 @@ import { Etiqueta } from '../../interfaces/etiqueta';
   standalone: true,
   imports: [],
   template: `
-    <div>
-      <h1 class="main-title">Etiquetas</h1>
-      <h2 class="sub-title">Lista de etiquetas</h2>
-    </div>
     <div class="table-container">
       <div class="etiqueta-table">
         <table>
@@ -17,30 +13,26 @@ import { Etiqueta } from '../../interfaces/etiqueta';
             <th>Etiqueta</th>
             <th>Acciones</th>
           </tr>
+          @if(etiquetasList.length === 0) {
+          <tr>
+            <td>No hay etiquetas disponibles</td>
+          </tr>
+          } @else {
           @for (etiqueta of etiquetasList; track etiqueta.id) {
           <tr>
             <td>{{ etiqueta.etiqueta }}</td>
-            <td>
-              <button (click)="onEditEtiqueta(etiqueta.id)">Editar</button>
-              <button (click)="onDeleteEtiqueta(etiqueta.id)">Eliminar</button>
+            <td class="buttons-container">
+              <button class="btn-edit" (click)="onEditEtiqueta(etiqueta.id)">Editar</button>
+              <button class="btn-del" (click)="onDeleteEtiqueta(etiqueta.id)">Eliminar</button>
             </td>
           </tr>
           }
+        }
         </table>
       </div>
     </div>
   `,
   styles: `
-    .main-title {
-      font-size: 24px;
-      text-align: center;
-      margin-top: 20px; }
-
-    .sub-title {
-      font-size: 20px;
-      text-align: center;
-    }
-
     .table-container {
       display: flex;
       flex-direction: column;
@@ -53,8 +45,46 @@ import { Etiqueta } from '../../interfaces/etiqueta';
       margin: 10px;
     }
 
+    .btn-edit {
+      padding: 5px 10px;
+      width: 100px;
+      height: 30px;
+      font-size: 16px;
+      background-color: #007bff;
+      color: white;
+      border: none;
+      border-radius: 5px;
+    }
+
+    .btn-edit:hover {
+      background-color: #0056b3;
+      cursor: pointer;
+    }
+
+    .btn-del {
+      padding: 5px 10px;
+      width: 100px;
+      height: 30px;
+      font-size: 16px;
+      background-color: #dc3545;
+      color: white;
+      border: none;
+      border-radius: 5px;
+    }
+
+    .btn-del:hover {
+      background-color:rgb(141, 23, 35);
+      cursor: pointer;
+    }
+
+    .buttons-container {
+      display: flex;
+      justify-content: space-between;
+    }
+
     table, th, td {
       border: 1px solid black;
+      background-color: #f9f9f9;
     }
   `,
 })

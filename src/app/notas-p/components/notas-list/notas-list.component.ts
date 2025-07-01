@@ -5,11 +5,12 @@ import { NotasP } from '../../interfaces/notas-p';
   selector: 'app-notas-list',
   imports: [],
   template: `
-    <div>
-      <h1 class="main-title">Notas personales</h1>
-      <h2 class="sub-title">Lista de notas</h2>
+    @if(notasPList.length === 0){
+    <div class="title-container">
+      <h3 class="nota-title">No hay notas disponibles</h3>
+      <p class="nota-title">Crea una nueva nota para comenzar.</p>
     </div>
-    @for (nota of notasPList; track nota.id) {
+    } @else {@for (nota of notasPList; track nota.id) {
     <div class="notas-container">
       <div class="nota-container" [style.background]="nota.color">
         <div class="nota-id">
@@ -20,16 +21,16 @@ import { NotasP } from '../../interfaces/notas-p';
           <p class="nota-content">{{ nota.contenido }}</p>
         </div>
         <div class="nota-actions">
-          <button (click)="onEditNota(nota.id)" class="btn-nota-action">
+          <button (click)="onEditNota(nota.id)" class="btn-edit">
             Editar
           </button>
-          <button (click)="onDeleteNota(nota.id)" class="btn-nota-action">
+          <button (click)="onDeleteNota(nota.id)" class="btn-del">
             Eliminar
           </button>
         </div>
       </div>
     </div>
-    }
+    }}
   `,
   styles: `
     .title-container {
@@ -37,15 +38,6 @@ import { NotasP } from '../../interfaces/notas-p';
       flex-direction: column;
       align-items: center;
       margin-bottom: 20px;
-    }
-    .main-title {
-      font-size: 24px;
-      text-align: center;
-      margin-top: 20px;
-    }
-    .sub-title {
-      font-size: 20px;
-      text-align: center;
     }
     .notas-container {
       display: inline-grid;
@@ -67,14 +59,18 @@ import { NotasP } from '../../interfaces/notas-p';
 
     .nota-id {
       background-color:rgb(92, 88, 88);
+      width: 35px;
+      height: 35px;
       color: white;
-      border-radius: 5px;
-      /*width: min-content*/
-      padding: .2rem
       text-align: center;
+      align-content: center;
+      border-radius: 50%;
+      align-self: center;
     }
+
     .nota-title {
       font-size: 30px;
+      margin-top: 10px;
     }
     .nota-content {
       font-size: 16px;
@@ -90,7 +86,7 @@ import { NotasP } from '../../interfaces/notas-p';
       position: relative;
       top: max-content;
     }
-    .btn-nota-action {
+    .btn-edit {
       padding: 5px 10px;
       width: 100px;
       height: 30px;
@@ -100,8 +96,23 @@ import { NotasP } from '../../interfaces/notas-p';
       border: none;
       border-radius: 5px;
     }
-    .btn-nota-action:hover {
+    .btn-edit:hover {
       background-color: #0056b3;
+      cursor: pointer;
+    }
+
+    .btn-del {
+      padding: 5px 10px;
+      width: 100px;
+      height: 30px;
+      font-size: 16px;
+      background-color: #dc3545;
+      color: white;
+      border: none;
+      border-radius: 5px;
+    }
+    .btn-del:hover {
+      background-color:rgb(141, 23, 35);
       cursor: pointer;
     }
   `,

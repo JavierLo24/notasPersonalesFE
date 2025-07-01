@@ -62,7 +62,7 @@ import { NotasP, NotasPForm } from '../../interfaces/notas-p';
           <br />
           <button
             type="submit"
-            class="btn btn-primary"
+            class="btn-save"
           >
             {{ notasPDetalle != null ? 'Actualizar Nota' : 'Guardar Nota' }}
           </button>
@@ -76,8 +76,6 @@ import { NotasP, NotasPForm } from '../../interfaces/notas-p';
       height: 100%;
       display: flex;
       flex-direction: column;
-      align-items: center;
-      justify-content: center;
     }
     .header {
       text-align: center;
@@ -96,6 +94,7 @@ import { NotasP, NotasPForm } from '../../interfaces/notas-p';
     }
     .title-input {
       width: 100%;
+      max-width: 400px;
       padding: 10px;
       margin-bottom: 10px;
     }
@@ -104,6 +103,8 @@ import { NotasP, NotasPForm } from '../../interfaces/notas-p';
     }
     .content-input {
       width: 100%;
+      max-width: 400px;
+      max-height: 200px;
       padding: 10px;
       margin-bottom: 10px;
     }
@@ -115,7 +116,12 @@ import { NotasP, NotasPForm } from '../../interfaces/notas-p';
       padding: 10px;
       margin-bottom: 10px;
     }
-
+    .btn-save {
+      width: 100%;
+      padding: 10px;
+      background-color: rgb(42, 95, 7);
+      color: white;
+    }
   `,
 })
 export class AddUpNotasComponent implements OnInit {
